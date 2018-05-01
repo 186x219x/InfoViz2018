@@ -53,7 +53,7 @@ function main()
 
     var torus_knot_Gouraud_Lambertian = new THREE.Mesh( geometry, material_Gouraud_Lambertian );
     var torus_knot_Gouraud_Phong = new THREE.Mesh( geometry, material_Gouraud_Phong );
-    scene_Gouraud_Lambertiant.add( torus_knot_Gouraud_Lambertian );
+    scene_Gouraud_Lambertian.add( torus_knot_Gouraud_Lambertian );
     scene_Gouraud_Phong.add( torus_knot_Gouraud_Phong );
     loop();
 
