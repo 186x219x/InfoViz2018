@@ -1,22 +1,34 @@
-<html>
-    <head>
-	<title>Final Task</title>
-    </head>
-    <body style="margin:0">
-  <script src="jquery-3.3.1.min.js"></script>
-	<script src="three.min.js"></script>
-	<script src="TrackballControls.js"></script>
-	<script src="Lut.js"></script>
-	<script src="KVS.min.js"></script>
-	<script src="KVS2THREE.min.js"></script>
-	<script src="KVSLobsterData.js"></script>
-	<script src="Bounds.js"></script>
-	<script src="Isosurfaces.js"></script>
-	<script src="finaltask.js"></script>
-  <label>isosurface <input type="range" id="iso_bar" min="0" max="255" step="1" value="128"></label>
-  <span id="iso_score"></span><br>
-  <label>Red <input type="range" id="R_bar" min="0" max="255" step="1" value="128"></label>
-  <span id="R_score"></span>
+<html lang="ja">
+<meta charset="UTF-8">
+<meta http-equiv="Content-Style-Type" content="text/css">
+<head>
+  <title>Final Task</title>
+</head>
 
-    </body>
+<body>
+  <script src="jquery-3.3.1.min.js"></script>
+  <script src="three.min.js"></script>
+  <script src="TrackballControls.js"></script>
+  <script src="Lut.js"></script>
+  <script src="KVS.min.js"></script>
+  <script src="KVS2THREE.min.js"></script>
+  <script src="KVSLobsterData.js"></script>
+  <script src="Bounds.js"></script>
+  <script src="Isosurfaces.js"></script>
+  <script src="finaltask.js"></script>
+  <LINK rel="stylesheet" href="finaltask.css" type="text/css">
+  <H1>情報可視化論2018最終課題</H1>
+  <P align="right">神戸大学大学院システム情報学研究科 186X219X 前田晴久<BR>
+  <div id="slider" align="center">
+    <label>isosurface <input type="range" id="iso_bar" min="0" max="255" step="1" value="128"></label>
+    <span id="iso_score"></span><br>
+    <label>R <input class="slider" type="range" id="R_bar" min="0" max="255" step="1" value="128"></label>
+    <span id="R_score"></span><br>
+    <label>B <input class="slider" type="range" id="B_bar" min="0" max="255" step="1" value="128"></label>
+    <span id="B_score"></span><br>
+    <label>G <input class="slider" type="range" id="G_bar" min="0" max="255" step="1" value="128"></label>
+    <span id="G_score"></span>
+  </div>
+</body>
+
 </html>
