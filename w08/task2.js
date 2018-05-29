@@ -1,3 +1,15 @@
+// Create color map
+var cmap = [];
+for ( var i = 0; i < 256; i++ )
+{
+    var S = i / 255.0; // [0,1]
+    var R = 1.0;
+    var G = Math.max( 1.0 - S , 0.0 );
+    var B = Math.max( 1.0 - S , 0.0 );
+    var color = new THREE.Color( R, G, B );
+    cmap.push( [ S, '0x' + color.getHexString() ] );
+}
+
 function main()
 {
     var width = 500;
@@ -36,18 +48,6 @@ function main()
         0.2, // S1
         0.8  // S2
     ];
-
-    // Create color map
-    var cmap = [];
-    for ( var i = 0; i < 256; i++ )
-    {
-        var S = i / 255.0; // [0,1]
-        var R = 1.0;
-        var G = Math.max( 1.0 - S , 0.0 );
-        var B = Math.max( 1.0 - S , 0.0 );
-        var color = new THREE.Color( R, G, B );
-        cmap.push( [ S, '0x' + color.getHexString() ] );
-    }
 
     // Draw color map
     var lut = new THREE.Lut( 'rainbow', cmap.length );
