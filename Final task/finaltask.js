@@ -32,8 +32,8 @@ $(function() {
   var volume = new KVS.LobsterData();
   var screen = new KVS.THREEScreen();
   screen.init(volume, {
-    width: window.innerWidth,
-    height: window.innerHeight / 2,
+    width: window.innerWidth / 2,
+    height: window.innerHeight,
     enableAutoResize: false
   });
 

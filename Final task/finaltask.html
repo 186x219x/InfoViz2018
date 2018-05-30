@@ -1,6 +1,7 @@
 <html lang="ja">
 <meta charset="UTF-8">
 <meta http-equiv="Content-Style-Type" content="text/css">
+
 <head>
   <title>Final Task</title>
 </head>
@@ -17,18 +18,67 @@
   <script src="Isosurfaces.js"></script>
   <script src="finaltask.js"></script>
   <LINK rel="stylesheet" href="finaltask.css" type="text/css">
-  <H1>情報可視化論2018最終課題</H1>
-  <P align="right">神戸大学大学院システム情報学研究科 186X219X 前田晴久<BR>
-  <div id="slider" align="center">
-    <label>isosurface <input type="range" id="iso_bar" min="0" max="255" step="1" value="128"></label>
-    <span id="iso_score"></span><br>
-    <label>R <input class="slider" type="range" id="R_bar" min="0" max="255" step="1" value="128"></label>
-    <span id="R_score"></span><br>
-    <label>B <input class="slider" type="range" id="B_bar" min="0" max="255" step="1" value="128"></label>
-    <span id="B_score"></span><br>
-    <label>G <input class="slider" type="range" id="G_bar" min="0" max="255" step="1" value="128"></label>
-    <span id="G_score"></span>
-  </div>
+  <!-- Gouraud Shading / LambertianReflection -->
+  <script type="x-shader/x-vertex" id="gouraud.vert">
+    varying vec3 point_color; varying vec4 point_position; varying vec3 normal_vector; uniform vec3 light_position; vec3 LambertianReflection( vec3 C, vec3 L, vec3 N ) { float ka = 0.2; float kd = 0.7; float dd = max( dot( N, L ), 0.0 ); float Ia = ka; float
+    Id = kd * dd; return C * ( Ia + Id ); } void main() { point_position = modelViewMatrix * vec4( position, 1.0 ); normal_vector = normalMatrix * normal; vec3 C = color; vec3 L = normalize( light_position - point_position.xyz ); vec3 N = normalize( normal_vector
+    ); point_color = LambertianReflection( C, L, N ); gl_Position = projectionMatrix * point_position; }
+  </script>
+  <script type="x-shader/x-fragment" id="gouraud.frag">
+    varying vec3 point_color; void main() { gl_FragColor = vec4( point_color, 1.0 ); }
+  </script>
+
+  <!-- Gouraud Shading / PhongReflection-->
+  <script type="x-shader/x-vertex" id="phong.vert">
+    varying vec3 point_color; varying vec4 point_position; varying vec3 normal_vector; uniform vec3 light_position; vec3 PhongReflection(vec3 C,vec3 L,vec3 N, vec3 V) { float ka = 0.3; float kd = 0.5; float ks = 0.8; float n = 50.0; vec3 R = reflect( -L,
+    N); float dd = max( dot(N, L), 0.0); float ds = pow( max( dot(R, V), 0.0), n); if (dd
+    <=0 .0){ ds=0 .0;} float Ia=k a; float Id=k d*dd; float Is=k s*ds; return C*(Ia+Id+Is); } void main() { point_position=m odelViewMatrix * vec4( position, 1.0
+      ); normal_vector=n ormalMatrix * normal; vec3 C=c olor; vec3 L=n ormalize( light_position - point_position.xyz ); vec3 N=n ormalize( normal_vector ); vec3 V=n ormalize( -point_position.xyz); point_color=P hongReflection( C, L, N, V ); gl_Position=p
+      rojectionMatrix * point_position; } </script>
+      <script type="x-shader/x-fragment" id="phong.frag">
+        varying vec3 point_color; void main() { gl_FragColor = vec4( point_color, 1.0 ); }
+      </script>
+
+
+      <H2>情報可視化論2018最終課題</H2>
+      <P align="right">神戸大学大学院システム情報学研究科 186X219X 前田晴久
+        <BR>
+
+        <div id="display" style="width: 60%; float: left;">
+          <H3>Visualization Result</H3>
+        </div>
+        <div id="controller" style="width: 40%; float: right;">
+          <H3>Change Isosurfaces</H3>
+          <div align="center">
+            <label><input class="slider" type="range" id="iso_bar" min="0" max="255" step="1" value="128"></label>
+            <span id="iso_score"></span><br>
+          </div>
+          <H3>Change Color Map</H3>
+          <div align="center">
+            <label>R <input class="slider" type="range" id="R_bar" min="0" max="255" step="1" value="128"></label>
+            <span id="R_score"></span><br>
+            <label>B <input class="slider" type="range" id="B_bar" min="0" max="255" step="1" value="128"></label>
+            <span id="B_score"></span><br>
+            <label>G <input class="slider" type="range" id="G_bar" min="0" max="255" step="1" value="128"></label>
+            <span id="G_score"></span>
+          </div>
+          <H3>Change Shading Effect</H3>
+          <div align="center">
+            <div class="shading" align="left">
+              <span class="shading_text">Shading:</span>
+              <a class="square_btn">Gouraud</a>
+            </div>
+            <div class="reflection" align="left">
+              <span class="shading_text">Reflection:</span>
+              <a class="square_btn" id="lambertianreflection">Lambertian</a>
+              <a class="square_btn" id="phongreflection">Phong</a>
+            </div>
+            <div class="shading_result">
+              <label>Shading</label><input type="text" id="choosing_shading"></input>
+              <label>Reflection</label><input type="text" id="choosing_reflection"></input>
+              <a class="square_btn" id="shading_visualize">Visualize</a>
+            </div>
+          </div>
 </body>
 
 </html>
