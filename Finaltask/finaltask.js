@@ -34,7 +34,7 @@ $(function() {
   screen.init(volume, {
     width: window.innerWidth / 2,
     height: window.innerHeight,
-    enableAutoResize: false
+    enableAutoResize: false,
   });
 
   var bounds = Bounds(volume);
@@ -51,6 +51,10 @@ $(function() {
   window.addEventListener('resize', function() {
     screen.resize([window.innerWidth, window.innerHeight]);
   });
+
+  var light = new THREE.PointLight();
+  light.position.set( 5, 5, 5 );
+  screen.scene.add( light );
 
   screen.loop();
 
@@ -75,17 +79,6 @@ $(function() {
     screen.scene.add(surfaces);
   });
 
-  //Blueを変更して再描画
-  $('#B_score').html($('#B_bar').val());
-  $('#B_bar').on('input change', function() {
-    $('#B_score').html($(this).val());
-    screen.scene.remove(surfaces);
-    b_value = $(this).val();
-    changeBlueColor(b_value)
-    surfaces = Isosurfaces(volume, isovalue);
-    screen.scene.add(surfaces);
-  });
-
   //Greenを変更して再描画
   $('#G_score').html($('#G_bar').val());
   $('#G_bar').on('input change', function() {
@@ -97,4 +90,53 @@ $(function() {
     screen.scene.add(surfaces);
   });
 
+  //Blueを変更して再描画
+  $('#B_score').html($('#B_bar').val());
+  $('#B_bar').on('input change', function() {
+    $('#B_score').html($(this).val());
+    screen.scene.remove(surfaces);
+    b_value = $(this).val();
+    changeBlueColor(b_value)
+    surfaces = Isosurfaces(volume, isovalue);
+    screen.scene.add(surfaces);
+  });
+
+  //Shadingを指定する
+  $('.square_btn_s').on('click', function(){
+      var name = $(this).attr("id");
+      $('#choosing_shading').val(name);
+  });
+
+  //Reflectionを指定する
+  $('.square_btn_r').on('click', function(){
+      var name = $(this).attr("id");
+      $('#choosing_reflection').val(name);
+  });
+
+  //テキストボックスからShadingとReflectionを受け取って再描画する
+  $('.shading_btn').on('click', function(){
+      var shading = $('#choosing_shading').val();
+      var reflection = $('#choosing_reflection').val();
+      screen.scene.remove(surfaces);
+      if(shading == "Gouraud"){
+      surfaces = IsosurfacesWithGouraudShading(volume, isovalue, shading, reflection, screen);
+    }else if(shading == "Phong"){
+      surfaces = IsosurfacesWithPhongShading(volume, isovalue, shading, reflection, screen);
+    }
+      screen.scene.add(surfaces);
+  });
+
+  $('.initialize_btn').on('click', function(){
+    screen.scene.remove(surfaces);
+    $('#iso_bar').val(128);
+    $('#iso_score').html(128);
+    $('#R_bar').val(128);
+    $('#R_score').html(128);
+    $('#G_bar').val(128);
+    $('#G_score').html(128);
+    $('#B_bar').val(128);
+    $('#B_score').html(128);
+    //var surfaces = Isosurfaces(volume, isovalue);
+    //screen.scene.add(surfaces);
+  })
 });
